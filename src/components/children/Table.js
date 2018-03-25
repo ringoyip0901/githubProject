@@ -49,7 +49,7 @@ export const Frame = (props) => {
 
   const handleChangeAuthor = (event, index, value) => props.filterSuccess(value, "author");
 
-  const  handleChangeLabel = (event, index, value) => props.filterSuccess(value, "label");
+  const handleChangeLabel = (event, index, value) => props.filterSuccess(value, "label");
 
   const handleSortDates = (event, index, value) => props.filterSuccess(value, "sort");
 
