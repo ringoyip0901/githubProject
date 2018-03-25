@@ -3959,7 +3959,7 @@ function fetchIssues(keyword, filterType) {
 
     try {
       dispatch(fetchPostsRequest());
-      var success = await fetch('https://api.github.com/repos/facebook/hhvm/issues').then(function (response) {
+      var success = await fetch('https://api.github.com/repos/facebook/react/issues').then(function (response) {
         return response.json();
       });
       if (filterType === 'author') {

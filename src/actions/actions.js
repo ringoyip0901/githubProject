@@ -12,7 +12,7 @@ export function fetchIssues(keyword, filterType) {
     
     try {
       dispatch(fetchPostsRequest())
-      const success = await fetch('https://api.github.com/repos/facebook/hhvm/issues').then(
+      const success = await fetch('https://api.github.com/repos/facebook/react/issues').then(
         response => response.json()
       )
       if (filterType === 'author') {
