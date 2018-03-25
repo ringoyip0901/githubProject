@@ -1,0 +1,128 @@
+#display {
+  width: auto;
+  height: auto;
+  border: 1px solid #cec6c6;
+  margin: 50px 70px 50px 70px;
+}
+
+#displayLeft {
+  padding-top: 40px;
+  float: left;
+}
+
+#displayRight {
+  float: right;
+}
+
+#displayRight th {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.closed {
+  margin-left: 15px;
+}
+
+.float-left {
+  float: left;
+  padding: 7px;
+  width: 85%;
+}
+
+.float-left > a {
+  display: inline-block;
+}
+
+.float-right {
+  float: right;
+  width: 15%;
+  margin: 25px 0px 25px 0px;
+}
+
+#label {
+  display: flex;
+}
+
+.chip {
+  height: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 15px;
+  border-radius: 2px;
+  display: block;
+  width: inherit;
+  text-align: center;
+  padding: 3px 5px 5px 5px;
+  margin: 5px 5px 5px 5px;
+  text-align: center
+}
+
+#title {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  color: #24292e !important;
+  white-space: pre-line;
+  vertical-align: middle !important;
+  line-height: 1.25 !important;
+}
+
+#title:hover {
+  color: #0366d6 !important;
+  text-decoration: none !important;
+}
+
+#status {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 12px !important;
+  color: #586069 !important;
+  line-height: 1.25 !important;
+}
+
+img {
+  width: inherit;
+}
+
+thead {
+  background-color: #f6f8fa !important;
+}
+
+tr:hover {
+  background-color: #f6f8fa !important;
+}
+
+#authors {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#authorPic {
+  margin-right: 10px;
+}
+
+#labelColor {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#filter {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 5px;
+  border: 1px solid #dfe2e5;
+  border-radius: 3px;
+}
+
+#emptyAvatar {
+  float: left;
+  border: 0px solid black;
+  width: 35px;
+  height: 35px;
+}
+
+#comments {
+  margin-left: 50px;
+}
+
+
