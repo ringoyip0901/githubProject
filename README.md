@@ -4,7 +4,7 @@ The API link used here is https://api.github.com/repos/facebook/react/issues.
 
 Automated testing is implemented using Jest and Travis CI. 
 
-To open the project, you can either run nodemon and open localhost:3000, or open index.html directly. 
+To open the project, you can either run nodemon and open localhost:3000, or open index.html directly. Please use the [approved] branch, which is set to default.
 
 Features implemented: 
 
