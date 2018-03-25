@@ -41,6 +41,7 @@
 
 #label {
   display: flex;
+  color: #131111;
 }
 
 .chip {
@@ -54,7 +55,7 @@
   text-align: center;
   padding: 3px 5px 5px 5px;
   margin: 5px 5px 5px 5px;
-  text-align: center
+  text-align: center;
 }
 
 #title {
@@ -125,4 +126,6 @@ tr:hover {
   margin-left: 50px;
 }
 
-
+.chatbox {
+  padding-left: 5px;
+}

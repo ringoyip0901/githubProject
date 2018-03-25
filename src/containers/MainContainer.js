@@ -26,9 +26,6 @@ class MainContainer extends Component {
     else {
       return false;
     }
-    if (JSON.stringify(this.props.issues) === JSON.stringify(nextProps.issues)) {
-      return false;
-    }
   }
 
   componentDidUpdate() {
@@ -38,7 +35,7 @@ class MainContainer extends Component {
     else if (this.props.keyword && this.props.filterType == "label") {
       this.props.fetchIssues(this.props.keyword, this.props.filterType);
     }
-    else if (this.props.keyword && this.props.filterType == "date") {
+    else if (this.props.keyword && this.props.filterType == "sort") {
       this.props.fetchIssues(this.props.keyword, this.props.filterType);
     }
   }

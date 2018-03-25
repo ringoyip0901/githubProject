@@ -32,12 +32,29 @@ export function fetchIssues(keyword, filterType) {
         })
         return labelSuccess.length ? onSuccess(success, labelSuccess) : console.log("Error");
       }
-      else if (filterType === 'date') {
+      else if (filterType === 'sort') {
+        let sortedSuccess = [];
         if (keyword === 'Newest') {
-          const sortedDates = [1,2,3];
-          console.log('sorted issues', sortedDates)
-          return;
+          sortedSuccess = success.sort((a,b) => {
+            return new Date(b.created_at) - new Date(a.created_at);
+          });
         }
+        else if (keyword === 'Oldest') {
+          sortedSuccess = success.sort((a,b) => {
+            return new Date(a.created_at) - new Date(b.created_at);
+          });
+        }
+        else if (keyword === 'Most commented') {
+          sortedSuccess = success.sort((a,b) => {
+            return b.comments - a.comments;
+          });
+        }
+        else if (keyword === 'Least commented') {
+          sortedSuccess = success.sort((a,b) => {
+            return a.comments - b.comments;          
+          });
+        }
+        return sortedSuccess.length ? onSuccess(success, sortedSuccess) : console.log("Error");
       }
       else {
         const newSuccess = success.slice();
@@ -82,12 +99,3 @@ export function filterSuccess(keyword, filterType) {
   };
 }
 
-// export const SORT_DATES = "SORT_DATES";
-// export function filterDates(issues) {
-//   console.log('filtering dates: ', issues)
-//   const sortedIssues = [1,2,3];
-//   return {
-//     type: "FILTER_DATES",
-//     sortedIssues
-//   }
-// }

@@ -3977,12 +3977,26 @@ function fetchIssues(keyword, filterType) {
           });
         });
         return labelSuccess.length ? onSuccess(success, labelSuccess) : console.log("Error");
-      } else if (filterType === 'date') {
+      } else if (filterType === 'sort') {
+        var sortedSuccess = [];
         if (keyword === 'Newest') {
-          var sortedDates = [1, 2, 3];
-          console.log('sorted issues', sortedDates);
-          return;
+          sortedSuccess = success.sort(function (a, b) {
+            return new Date(b.created_at) - new Date(a.created_at);
+          });
+        } else if (keyword === 'Oldest') {
+          sortedSuccess = success.sort(function (a, b) {
+            return new Date(a.created_at) - new Date(b.created_at);
+          });
+        } else if (keyword === 'Most commented') {
+          sortedSuccess = success.sort(function (a, b) {
+            return b.comments - a.comments;
+          });
+        } else if (keyword === 'Least commented') {
+          sortedSuccess = success.sort(function (a, b) {
+            return a.comments - b.comments;
+          });
         }
+        return sortedSuccess.length ? onSuccess(success, sortedSuccess) : console.log("Error");
       } else {
         var newSuccess = success.slice();
         return onSuccess(success, newSuccess);
@@ -4025,16 +4039,6 @@ function filterSuccess(keyword, filterType) {
     filterType: filterType
   };
 }
-
-// export const SORT_DATES = "SORT_DATES";
-// export function filterDates(issues) {
-//   console.log('filtering dates: ', issues)
-//   const sortedIssues = [1,2,3];
-//   return {
-//     type: "FILTER_DATES",
-//     sortedIssues
-//   }
-// }
 
 /***/ }),
 /* 85 */
@@ -8631,7 +8635,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(309);
+var	fixUrls = __webpack_require__(310);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -8969,7 +8973,7 @@ var _MainContainer = __webpack_require__(163);
 
 var _MainContainer2 = _interopRequireDefault(_MainContainer);
 
-__webpack_require__(310);
+__webpack_require__(311);
 
 var _reactRedux = __webpack_require__(85);
 
@@ -26957,9 +26961,6 @@ var MainContainer = function (_Component) {
       } else {
         return false;
       }
-      if (JSON.stringify(this.props.issues) === JSON.stringify(nextProps.issues)) {
-        return false;
-      }
     }
   }, {
     key: 'componentDidUpdate',
@@ -26968,7 +26969,7 @@ var MainContainer = function (_Component) {
         this.props.fetchIssues(this.props.keyword, this.props.filterType);
       } else if (this.props.keyword && this.props.filterType == "label") {
         this.props.fetchIssues(this.props.keyword, this.props.filterType);
-      } else if (this.props.keyword && this.props.filterType == "date") {
+      } else if (this.props.keyword && this.props.filterType == "sort") {
         this.props.fetchIssues(this.props.keyword, this.props.filterType);
       }
     }
@@ -28352,7 +28353,7 @@ var _Table = __webpack_require__(258);
 
 var _Table2 = _interopRequireDefault(_Table);
 
-__webpack_require__(307);
+__webpack_require__(308);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34025,6 +34026,10 @@ var _logo = __webpack_require__(306);
 
 var _logo2 = _interopRequireDefault(_logo);
 
+var _chatbox = __webpack_require__(307);
+
+var _chatbox2 = _interopRequireDefault(_chatbox);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Frame = exports.Frame = function Frame(props) {
@@ -34081,7 +34086,8 @@ var Frame = exports.Frame = function Frame(props) {
                 'span',
                 { id: 'comments' },
                 props.issues[i].comments
-              )
+              ),
+              _react2.default.createElement('img', { className: 'chatbox', src: _chatbox2.default })
             )
           )
         )
@@ -34103,21 +34109,7 @@ var Frame = exports.Frame = function Frame(props) {
   };
 
   var handleSortDates = function handleSortDates(event, index, value) {
-    return props.filterSuccess(value, "date");
-  };
-
-  var filterFunction = function filterFunction() {
-    var input = document.getElementById('myInput');
-    var filter = "eryi";
-    var div = document.getElementById('myDropdown');
-    var items = document.getElementsByClassName('menuItem');
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-        items[i].style.display = '';
-      } else {
-        items[i].style.display = 'none';
-      }
-    }
+    return props.filterSuccess(value, "sort");
   };
 
   return _react2.default.createElement(
@@ -34215,12 +34207,8 @@ var Frame = exports.Frame = function Frame(props) {
                 'Sort',
                 _react2.default.createElement(
                   _DropDownMenu2.default,
-                  { style: _Functions.styles.dropdownmenu, onChange: handleSortDates },
-                  _react2.default.createElement(
-                    _MenuItem2.default,
-                    { value: 'Newest' },
-                    'Newest'
-                  )
+                  { style: _Functions.styles.dropdownmenu, menuStyle: { width: '300px' }, menuItemStyle: _Functions.styles.menuitemstyle, maxHeight: 300, value: 'Sort', onChange: handleSortDates },
+                  (0, _Functions.sortMenu)()
                 )
               )
             )
@@ -37906,6 +37894,7 @@ exports.Label = Label;
 exports.Assign = Assign;
 exports.Author = Author;
 exports.LabelMenu = LabelMenu;
+exports.sortMenu = sortMenu;
 
 var _react = __webpack_require__(1);
 
@@ -38061,6 +38050,24 @@ function LabelMenu(menu) {
       }
     }
   }
+  return items;
+}
+
+function sortMenu() {
+  var items = [];
+  var list = ["Newest", "Oldest", "Most commented", "Least commented", "Recently updated", "Least recently updated"];
+  items.push(_react2.default.createElement(
+    'div',
+    { style: styles.item },
+    'Sort by'
+  ));
+  list.forEach(function (ele) {
+    items.push(_react2.default.createElement(
+      _MenuItem2.default,
+      { style: styles.items, value: ele },
+      ele
+    ));
+  });
   return items;
 }
 
@@ -42184,8 +42191,14 @@ module.exports = __webpack_require__.p + "ef948118b3f8c51876b4e176762e3507.png";
 /* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__.p + "d679e940b356aafe7bd01da20bdafed6.png";
 
-var content = __webpack_require__(308);
+/***/ }),
+/* 308 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(309);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -42231,7 +42244,7 @@ if(false) {
 }
 
 /***/ }),
-/* 308 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(132)(false);
@@ -42239,13 +42252,13 @@ exports = module.exports = __webpack_require__(132)(false);
 
 
 // module
-exports.push([module.i, "#display {\n  width: auto;\n  height: auto;\n  border: 1px solid #cec6c6;\n  margin: 50px 70px 50px 70px;\n}\n\n#displayLeft {\n  padding-top: 40px;\n  float: left;\n}\n\n#displayRight {\n  float: right;\n}\n\n#displayRight th {\n  padding-left: 0px !important;\n  padding-right: 0px !important;\n}\n\n.closed {\n  margin-left: 15px;\n}\n\n.float-left {\n  float: left;\n  padding: 7px;\n  width: 85%;\n}\n\n.float-left > a {\n  display: inline-block;\n}\n\n.float-right {\n  float: right;\n  width: 15%;\n  margin: 25px 0px 25px 0px;\n}\n\n#label {\n  display: flex;\n}\n\n.chip {\n  height: 20px;\n  font-size: 12px;\n  font-weight: 600;\n  line-height: 15px;\n  border-radius: 2px;\n  display: block;\n  width: inherit;\n  text-align: center;\n  padding: 3px 5px 5px 5px;\n  margin: 5px 5px 5px 5px;\n  text-align: center\n}\n\n#title {\n  font-weight: 600 !important;\n  font-size: 16px !important;\n  color: #24292e !important;\n  white-space: pre-line;\n  vertical-align: middle !important;\n  line-height: 1.25 !important;\n}\n\n#title:hover {\n  color: #0366d6 !important;\n  text-decoration: none !important;\n}\n\n#status {\n  margin-top: 5px;\n  margin-bottom: 5px;\n  font-size: 12px !important;\n  color: #586069 !important;\n  line-height: 1.25 !important;\n}\n\nimg {\n  width: inherit;\n}\n\nthead {\n  background-color: #f6f8fa !important;\n}\n\ntr:hover {\n  background-color: #f6f8fa !important;\n}\n\n#authors {\n  padding-top: 5px;\n  padding-bottom: 5px;\n}\n\n#authorPic {\n  margin-right: 10px;\n}\n\n#labelColor {\n  display: inline-block;\n  margin-right: 10px;\n}\n\n#filter {\n  display: block;\n  width: 100%;\n  max-width: 100%;\n  padding: 5px;\n  border: 1px solid #dfe2e5;\n  border-radius: 3px;\n}\n\n#emptyAvatar {\n  float: left;\n  border: 0px solid black;\n  width: 35px;\n  height: 35px;\n}\n\n#comments {\n  margin-left: 50px;\n}\n\n\n", ""]);
+exports.push([module.i, "#display {\n  width: auto;\n  height: auto;\n  border: 1px solid #cec6c6;\n  margin: 50px 70px 50px 70px;\n}\n\n#displayLeft {\n  padding-top: 40px;\n  float: left;\n}\n\n#displayRight {\n  float: right;\n}\n\n#displayRight th {\n  padding-left: 0px !important;\n  padding-right: 0px !important;\n}\n\n.closed {\n  margin-left: 15px;\n}\n\n.float-left {\n  float: left;\n  padding: 7px;\n  width: 85%;\n}\n\n.float-left > a {\n  display: inline-block;\n}\n\n.float-right {\n  float: right;\n  width: 15%;\n  margin: 25px 0px 25px 0px;\n}\n\n#label {\n  display: flex;\n  color: #131111;\n}\n\n.chip {\n  height: 20px;\n  font-size: 12px;\n  font-weight: 600;\n  line-height: 15px;\n  border-radius: 2px;\n  display: block;\n  width: inherit;\n  text-align: center;\n  padding: 3px 5px 5px 5px;\n  margin: 5px 5px 5px 5px;\n  text-align: center;\n}\n\n#title {\n  font-weight: 600 !important;\n  font-size: 16px !important;\n  color: #24292e !important;\n  white-space: pre-line;\n  vertical-align: middle !important;\n  line-height: 1.25 !important;\n}\n\n#title:hover {\n  color: #0366d6 !important;\n  text-decoration: none !important;\n}\n\n#status {\n  margin-top: 5px;\n  margin-bottom: 5px;\n  font-size: 12px !important;\n  color: #586069 !important;\n  line-height: 1.25 !important;\n}\n\nimg {\n  width: inherit;\n}\n\nthead {\n  background-color: #f6f8fa !important;\n}\n\ntr:hover {\n  background-color: #f6f8fa !important;\n}\n\n#authors {\n  padding-top: 5px;\n  padding-bottom: 5px;\n}\n\n#authorPic {\n  margin-right: 10px;\n}\n\n#labelColor {\n  display: inline-block;\n  margin-right: 10px;\n}\n\n#filter {\n  display: block;\n  width: 100%;\n  max-width: 100%;\n  padding: 5px;\n  border: 1px solid #dfe2e5;\n  border-radius: 3px;\n}\n\n#emptyAvatar {\n  float: left;\n  border: 0px solid black;\n  width: 35px;\n  height: 35px;\n}\n\n#comments {\n  margin-left: 50px;\n}\n\n.chatbox {\n  padding-left: 5px;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 309 */
+/* 310 */
 /***/ (function(module, exports) {
 
 
@@ -42340,11 +42353,11 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 310 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(311);
+var content = __webpack_require__(312);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -42390,7 +42403,7 @@ if(false) {
 }
 
 /***/ }),
-/* 311 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(132)(false);

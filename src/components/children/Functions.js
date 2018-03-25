@@ -126,3 +126,13 @@ export function LabelMenu(menu) {
   }
   return items;
 }
+
+export function sortMenu() {
+  const items = [];
+  const list = ["Newest", "Oldest", "Most commented", "Least commented", "Recently updated", "Least recently updated"];
+  items.push(<div style={styles.item}>Sort by</div>)
+  list.forEach((ele) => {
+    items.push(<MenuItem style={styles.items} value={ele}>{ele}</MenuItem>)
+  })
+  return items;
+}

@@ -7,12 +7,13 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { styles, FormateDate, Label, Assign, Author, Row, cellClicked, LabelMenu } from './Functions.js'
+import { styles, FormateDate, Label, Assign, Author, Row, cellClicked, LabelMenu, sortMenu } from './Functions.js'
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import logo from './logo.png'
+import logo from './logo.png';
+import chatbox from './chatbox.png';
 
 export const Frame = (props) => {
   const Row = () => {
@@ -34,7 +35,7 @@ export const Frame = (props) => {
             <div id='container-right'>
               <div className='float-right'>
                 {Assign(props.issues[i].assignees)}
-                <span id='comments'>{props.issues[i].comments}</span>
+                <span id='comments'>{props.issues[i].comments}</span><img className='chatbox' src={chatbox}></img>
               </div>
             </div>
           </TableRowColumn>
@@ -50,22 +51,7 @@ export const Frame = (props) => {
 
   const  handleChangeLabel = (event, index, value) => props.filterSuccess(value, "label");
 
-  const handleSortDates = (event, index, value) => props.filterSuccess(value, "date");
-
-  const filterFunction = () => {
-    let input = document.getElementById('myInput');
-    const filter = "eryi"
-    const div = document.getElementById('myDropdown');
-    const items = document.getElementsByClassName('menuItem');
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-        items[i].style.display = '';
-      }
-      else {
-        items[i].style.display = 'none';
-      }
-    }
-  }
+  const handleSortDates = (event, index, value) => props.filterSuccess(value, "sort");
 
   return (
     <div id='table'>
@@ -106,7 +92,9 @@ export const Frame = (props) => {
               </TableHeaderColumn>
               <TableHeaderColumn>
                 <span>Sort
-                  <DropDownMenu style={styles.dropdownmenu} onChange={handleSortDates}><MenuItem value='Newest'>Newest</MenuItem></DropDownMenu>
+                  <DropDownMenu style={styles.dropdownmenu} menuStyle={{width: '300px'}} menuItemStyle={styles.menuitemstyle} maxHeight={300} value="Sort" onChange={handleSortDates}>
+                    {sortMenu()}
+                  </DropDownMenu>
                 </span>
               </TableHeaderColumn>
             </div>
