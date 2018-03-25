@@ -9,4 +9,5 @@ To open the project, you can either run nodemon and open localhost:3000, or open
 Features implemented: 
 
 - Basic info, such as number, reporter, assignee, etc. 
+- Links to the actual github page of the issue(s).
 - Filtering for Author, Labels, and Sort. 
