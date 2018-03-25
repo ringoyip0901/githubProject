@@ -27,8 +27,18 @@ describe('Test Reducer', () => {
 
   it ('reducer for FETCH_ERROR', () => {
     let state = initialState;
-    console.log(state);
     state = reducer(initialState, {type: 'FETCH_ERROR'});
     expect(state).toEqual(error);
   });
+
+  it('reducer for FILTER_SUCCESS', () => {
+    let result = {};
+    result = reducer(initialState, { type: 'FILTER_SUCCESS' });
+    expect(result).toEqual({
+      issues: true,
+      backup: true,
+      keyword: undefined,
+      filterType: undefined
+    })
+  })
 })
