@@ -1,2 +1,6 @@
-language: JAVASCRIPT
+sudo: false
+language: javascript
+cache:
+  directories:
+    - "node_modules"
 
