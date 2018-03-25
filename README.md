@@ -6,6 +6,8 @@ Automated testing is implemented using Jest and Travis CI.
 
 To open the project, you can either run nodemon and open localhost:3000, or open index.html directly. Please use the [approved] branch, which is set to default.
 
+Don't forget to run npm install!
+
 Features implemented: 
 
 - Basic info, such as number, reporter, assignee, etc. 
