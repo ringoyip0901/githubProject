@@ -2,7 +2,7 @@
   "name": "cloudflare",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "backend/server.js",
   "scripts": {
     "test": "jest",
     "build": "webpack --debug",
@@ -33,7 +33,7 @@
     "express": "^4.16.2",
     "file-loader": "^1.1.6",
     "material-ui": "^0.20.0",
-    "nodemon": "^1.15.1",
+    "nodemon": "^1.17.2",
     "path": "^0.12.7",
     "react": "^16.2.0",
     "react-addons-test-utils": "^15.6.2",

@@ -1,6 +1,10 @@
 sudo: false
 language: node_js
 node_js: 
-  - "0.10"
+  - "node"
 script:
   - npm test
+cache: 
+  bundler: true
+  directories: 
+    - node_modules
